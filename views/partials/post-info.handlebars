@@ -1,0 +1,17 @@
+<article class="">
+  <div class="section-post">
+   
+    <h3 href="{{post_url}}" target="_blank" class="title">{{title}}</h3>
+    <span class="content">({{format_url post_url}})</span>
+
+    <p >
+      by
+      {{user.username}}
+      on
+      {{format_date created_at}}
+      |
+      <a href="/post/{{id}}">{{comments.length}}
+        {{format_plural "comment" comments.length}}</a>
+    </p>
+  </div>
+</article>

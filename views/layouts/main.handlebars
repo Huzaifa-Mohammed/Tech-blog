@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech-Blog</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+    <div class="wrapper">
+    <header>
+        <nav class="navbar mt-2">
+            {{#if loggedIn}}
+            <a href="/" class=""><h1>  homepage 
+            </h1>
+            </a>
+            <a href="/dashboard" class="">
+            <h1>
+
+            dashboard
+            </h1>
+            </a>
+            <a href="/dashboard/create/" class="">
+            <h1>
+            
+            create post
+
+            </h1>
+            </a>
+            <button id="logout" class="logout button">logout</button>
+            {{else}}
+            <a href="/" class="">
+            <h1>
+
+            homepage
+            </h1>
+            </a>
+            <a href="/login" class="">
+            <h1>
+
+            login
+            </h1>
+            </a>
+            {{/if}}
+        </nav>
+    </header>
+
+    <main>
+            {{{ body }}}
+    </main>
+
+    <footer class="">
+        <div class="">
+            <p>Copyright claim</p>
+           
+        </div>
+   
+    </footer>
+  </div>
+
+{{#if loggedIn}}
+<script src="/javascript/logout.js"></script>
+{{/if}}
+
+</html>

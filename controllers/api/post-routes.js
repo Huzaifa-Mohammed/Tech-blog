@@ -3,63 +3,83 @@ const { User, Post, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
 // get all users posts
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
+    console.log('======================');
     Post.findAll({
-            attributes: ["id", "title", "post_url", "created_at"],
-            include: [{
+            attributes: [
+                'id',
+                'title',
+                'created_at',
+                'post_url'
+
+            ],
+            order: [
+                ['created_at', 'DESC']
+            ],
+            include: [
+
+                {
                     model: Comment,
-                    attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                     include: {
                         model: User,
-                        attributes: ["username"],
-                    },
+                        attributes: ['username']
+                    }
                 },
                 {
                     model: User,
-                    attributes: ["username"],
+                    attributes: ['username']
                 },
-            ],
+            ]
         })
-        .then((dbPostData) => res.json(dbPostData))
-        .catch((err) => {
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
 
-// get a single users post
-router.get("/:id", (req, res) => {
+//get single
+router.get('/:id', (req, res) => {
     Post.findOne({
             where: {
-                id: req.params.id,
+                id: req.params.id
             },
-            attributes: ["id", "post_url", "title", "created_at"],
-            include: [{
-                    model: Comment,
-                    attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
-                    include: {
-                        model: User,
-                        attributes: ["username"],
-                    },
-                },
+            attributes: [
+                'id',
+                'title',
+                'created_at',
+                'post_url'
+            ],
+            include: [
+
                 {
                     model: User,
-                    attributes: ["username"],
+                    attributes: ['username']
                 },
-            ],
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+                    include: {
+                        model: User,
+                        attributes: ['username']
+                    }
+                }
+            ]
         })
-        .then((dbPostData) => {
+        .then(dbPostData => {
             if (!dbPostData) {
-                res.status(404).json({ message: "No Post found with this id" });
+                res.status(404).json({ message: 'No post found with this id' });
                 return;
             }
             res.json(dbPostData);
         })
-        .catch((err) => {
+        .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
+
 
 // add a Post
 router.post("/", withAuth, (req, res) => {
